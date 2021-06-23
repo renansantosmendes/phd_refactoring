@@ -39,7 +39,6 @@ public class Request implements Comparable, Cloneable {
 
         this.deliveryTimeWindowLower = deliveryTimeWindowLower;
         this.deliveryTimeWindowUpper = deliveryTimeWindowLower + timeWindowDefault;
-
     }
 
     public Request(int id, int origin, int destination, long pickupTimeWindowLower, long pickupTimeWindowUpper, long deliveryTimeWindowLower, long deliveryTimeWindowUpper) {
@@ -49,18 +48,10 @@ public class Request implements Comparable, Cloneable {
         this.destination = destination;
 
         this.pickupTimeWindowLower = pickupTimeWindowLower;
-        if (pickupTimeWindowUpper - pickupTimeWindowLower > 0) {
-            this.pickupTimeWindowUpper = pickupTimeWindowUpper;
-        } else {
-            this.pickupTimeWindowUpper = pickupTimeWindowLower + timeWindowDefault;
-        }
-
         this.deliveryTimeWindowLower = deliveryTimeWindowLower;
-        if (deliveryTimeWindowUpper - deliveryTimeWindowLower > 0) {
-            this.deliveryTimeWindowUpper = deliveryTimeWindowUpper;
-        } else {
-            this.deliveryTimeWindowUpper = deliveryTimeWindowLower + timeWindowDefault;
-        }
+
+        this.validatePickupTimeWindow(pickupTimeWindowLower, pickupTimeWindowUpper);
+        this.validateDeliveryTimeWindow(deliveryTimeWindowUpper, deliveryTimeWindowLower);
     }
 
     public Request(Request request) {
@@ -80,6 +71,22 @@ public class Request implements Comparable, Cloneable {
 
         this.timeWindowDefault = request.timeWindowDefault;
 
+    }
+
+    private void validatePickupTimeWindow(long pickupTimeWindowLower, long pickupTimeWindowUpper) {
+        if (pickupTimeWindowUpper - pickupTimeWindowLower > 0) {
+            this.pickupTimeWindowUpper = pickupTimeWindowUpper;
+        } else {
+            this.pickupTimeWindowUpper = pickupTimeWindowLower + timeWindowDefault;
+        }
+    }
+
+    private void validateDeliveryTimeWindow(long deliveryTimeWindowUpper1, long deliveryTimeWindowLower1) {
+        if (deliveryTimeWindowUpper1 - deliveryTimeWindowLower1 > 0) {
+            this.deliveryTimeWindowUpper = deliveryTimeWindowUpper1;
+        } else {
+            this.deliveryTimeWindowUpper = deliveryTimeWindowLower1 + timeWindowDefault;
+        }
     }
 
     public Integer getId() {
@@ -119,7 +126,6 @@ public class Request implements Comparable, Cloneable {
     }
 
     public void setPickupTimeWindowUpper(long pickupTimeWindowUpper) {
-
         if (pickupTimeWindowUpper - this.pickupTimeWindowLower > 0) {
             this.pickupTimeWindowUpper = pickupTimeWindowUpper;
         } else {
@@ -140,12 +146,7 @@ public class Request implements Comparable, Cloneable {
     }
 
     public void setDeliveryTimeWindowUpper(long deliveryTimeWindowUpper) {
-
-        if (deliveryTimeWindowUpper - this.deliveryTimeWindowLower > 0) {
-            this.deliveryTimeWindowUpper = deliveryTimeWindowUpper;
-        } else {
-            this.deliveryTimeWindowUpper = deliveryTimeWindowLower + timeWindowDefault;
-        }
+        this.validateDeliveryTimeWindow(deliveryTimeWindowUpper, this.deliveryTimeWindowLower);
     }
 
     public Long getPickupTime() {
