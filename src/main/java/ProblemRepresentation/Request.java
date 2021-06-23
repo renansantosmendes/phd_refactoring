@@ -14,13 +14,13 @@ public class Request implements Comparable, Cloneable {
     private Integer id;
     private Integer origin;
     private Integer destination;
-    
-    private Long pickupTimeWindowLower; 
-    private Long pickupTimeWindowUpper; 
-    private Long deliveryTimeWindowLower; 
-    private Long deliveryTimeWindowUpper; 
-    
-    private Long pickupTime = (long) -1; 
+
+    private Long pickupTimeWindowLower;
+    private Long pickupTimeWindowUpper;
+    private Long deliveryTimeWindowLower;
+    private Long deliveryTimeWindowUpper;
+
+    private Long pickupTime = (long) -1;
     private Long deliveryTime = (long) -1;
     private Long timeWindowDefault = (long) 10;
 
@@ -42,43 +42,43 @@ public class Request implements Comparable, Cloneable {
 
     }
 
-    public Request(int id, int origin, int destination, long pickupE, long pickupL, long deliveryE, long deliveryL) {
+    public Request(int id, int origin, int destination, long pickupTimeWindowLower, long pickupTimeWindowUpper, long deliveryTimeWindowLower, long deliveryTimeWindowUpper) {
         this.id = id;
 
         this.origin = origin;
         this.destination = destination;
 
-        this.pickupTimeWindowLower = pickupE;
-        if (pickupL - pickupE > 0) {
-            this.pickupTimeWindowUpper = pickupL;
+        this.pickupTimeWindowLower = pickupTimeWindowLower;
+        if (pickupTimeWindowUpper - pickupTimeWindowLower > 0) {
+            this.pickupTimeWindowUpper = pickupTimeWindowUpper;
         } else {
-            this.pickupTimeWindowUpper = pickupE + timeWindowDefault;
+            this.pickupTimeWindowUpper = pickupTimeWindowLower + timeWindowDefault;
         }
 
-        this.deliveryTimeWindowLower = deliveryE;
-        if (deliveryL - deliveryE > 0) {
-            this.deliveryTimeWindowUpper = deliveryL;
+        this.deliveryTimeWindowLower = deliveryTimeWindowLower;
+        if (deliveryTimeWindowUpper - deliveryTimeWindowLower > 0) {
+            this.deliveryTimeWindowUpper = deliveryTimeWindowUpper;
         } else {
-            this.deliveryTimeWindowUpper = deliveryE + timeWindowDefault;
+            this.deliveryTimeWindowUpper = deliveryTimeWindowLower + timeWindowDefault;
         }
     }
 
-    public Request(Request req) {
-        this.id = req.id;
+    public Request(Request request) {
+        this.id = request.id;
 
-        this.origin = req.origin;
-        this.destination = req.destination;
+        this.origin = request.origin;
+        this.destination = request.destination;
 
-        this.pickupTimeWindowLower = req.pickupTimeWindowLower;
-        this.pickupTimeWindowUpper = req.pickupTimeWindowUpper;
+        this.pickupTimeWindowLower = request.pickupTimeWindowLower;
+        this.pickupTimeWindowUpper = request.pickupTimeWindowUpper;
 
-        this.deliveryTimeWindowLower = req.deliveryTimeWindowLower;
-        this.deliveryTimeWindowUpper = req.deliveryTimeWindowUpper;
+        this.deliveryTimeWindowLower = request.deliveryTimeWindowLower;
+        this.deliveryTimeWindowUpper = request.deliveryTimeWindowUpper;
 
-        this.pickupTime = req.pickupTime;
-        this.deliveryTime = req.deliveryTime;
+        this.pickupTime = request.pickupTime;
+        this.deliveryTime = request.deliveryTime;
 
-        this.timeWindowDefault = req.timeWindowDefault;
+        this.timeWindowDefault = request.timeWindowDefault;
 
     }
 
@@ -174,12 +174,12 @@ public class Request implements Comparable, Cloneable {
         }
     }
 
-    public String getStringToFile(){
-        String string = id + "\t" + origin + "\t" + destination + "\t" + pickupTimeWindowLower + "\t" +pickupTimeWindowUpper 
+    public String getStringToFile() {
+        String string = id + "\t" + origin + "\t" + destination + "\t" + pickupTimeWindowLower + "\t" + pickupTimeWindowUpper
                 + "\t" + deliveryTimeWindowLower + "\t" + deliveryTimeWindowUpper;
         return string;
     }
-    
+
     @Override
     public String toString() {
 
@@ -249,29 +249,24 @@ public class Request implements Comparable, Cloneable {
         }
         s += deliveryTimeWindowUpper % 60 + "] ";
 
-        //FALTA ACRESCENTAR O PICKUPTIME E O DELIVERYTIME NA IMPRESSAO
         return s;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return obj instanceof Request && equals((Request) obj);
+    public boolean equals(Object object) {
+        return object instanceof Request && equals((Request) object);
     }
 
-    public boolean equals(Request request2) {
-        if (this == request2) {
+    public boolean equals(Request request) {
+        if (this == request) {
             return true;
         }
 
-        if (request2 == null) {
+        if (request == null) {
             return false;
         }
 
-        if (!id.equals(request2.id) /*|| !origin.equals(request2.origin)  || !destination.equals(request2.destination) || 
-				!pickupE.equals(request2.pickupE) || !pickupL.equals(request2.pickupL) || 
-				!deliveryE.equals(request2.deliveryE) || !deliveryL.equals(request2.deliveryL)*/ /*||
-				!pickupTime.equals(request2.pickupTime) || !deliveryTime.equals(request2.deliveryTime) ||
-				!timeWindowDefault.equals(request2.timeWindowDefault)*/) {
+        if (!id.equals(request.id)) {
             return false;
         }
 
@@ -302,40 +297,40 @@ public class Request implements Comparable, Cloneable {
         return compareTo((Request) obj);
     }
 
-    public int compareTo(Request r2) {
-        if (r2.getId().compareTo(this.id) == 0) {
+    public int compareTo(Request request) {
+        if (request.getId().compareTo(this.id) == 0) {
             return 0;
         }
 
-        if (((Long) r2.pickupTimeWindowLower).compareTo(this.pickupTimeWindowLower) > 0) {
+        if (((Long) request.pickupTimeWindowLower).compareTo(this.pickupTimeWindowLower) > 0) {
             return -1;
         }
 
-        if (((Long) r2.pickupTimeWindowLower).compareTo(this.pickupTimeWindowLower) < 0) {
+        if (((Long) request.pickupTimeWindowLower).compareTo(this.pickupTimeWindowLower) < 0) {
             return 1;
         }
 
-        if (((Long) r2.deliveryTimeWindowLower).compareTo(this.deliveryTimeWindowLower) > 0) {
+        if (((Long) request.deliveryTimeWindowLower).compareTo(this.deliveryTimeWindowLower) > 0) {
             return -1;
         }
 
-        if (((Long) r2.deliveryTimeWindowLower).compareTo(this.deliveryTimeWindowLower) < 0) {
+        if (((Long) request.deliveryTimeWindowLower).compareTo(this.deliveryTimeWindowLower) < 0) {
             return 1;
         }
 
-        if (((Long) r2.pickupTimeWindowUpper).compareTo(this.pickupTimeWindowUpper) > 0) {
+        if (((Long) request.pickupTimeWindowUpper).compareTo(this.pickupTimeWindowUpper) > 0) {
             return -1;
         }
 
-        if (((Long) r2.pickupTimeWindowUpper).compareTo(this.pickupTimeWindowUpper) < 0) {
+        if (((Long) request.pickupTimeWindowUpper).compareTo(this.pickupTimeWindowUpper) < 0) {
             return 1;
         }
 
-        if (((Long) r2.deliveryTimeWindowUpper).compareTo(this.deliveryTimeWindowUpper) > 0) {
+        if (((Long) request.deliveryTimeWindowUpper).compareTo(this.deliveryTimeWindowUpper) > 0) {
             return -1;
         }
 
-        if (((Long) r2.deliveryTimeWindowUpper).compareTo(this.deliveryTimeWindowUpper) < 0) {
+        if (((Long) request.deliveryTimeWindowUpper).compareTo(this.deliveryTimeWindowUpper) < 0) {
             return 1;
         }
 
@@ -349,29 +344,17 @@ public class Request implements Comparable, Cloneable {
 
         try {
             request = (Request) super.clone();
-
             request.id = new Integer(this.id);
-
             request.origin = new Integer(this.origin);
-
             request.destination = new Integer(this.destination);
-
             request.pickupTimeWindowLower = new Long(this.pickupTimeWindowLower);
-
             request.pickupTimeWindowUpper = new Long(this.pickupTimeWindowUpper);
-
             request.deliveryTimeWindowLower = new Long(this.deliveryTimeWindowLower);
-
             request.deliveryTimeWindowUpper = new Long(this.deliveryTimeWindowUpper);
-
             request.pickupTime = new Long(this.pickupTime);
-
             request.deliveryTime = new Long(this.deliveryTime);
-
             request.timeWindowDefault = new Long(this.timeWindowDefault);
-
         } catch (CloneNotSupportedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
