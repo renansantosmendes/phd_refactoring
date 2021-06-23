@@ -81,11 +81,11 @@ public class Request implements Comparable, Cloneable {
         }
     }
 
-    private void validateDeliveryTimeWindow(long deliveryTimeWindowUpper1, long deliveryTimeWindowLower1) {
-        if (deliveryTimeWindowUpper1 - deliveryTimeWindowLower1 > 0) {
-            this.deliveryTimeWindowUpper = deliveryTimeWindowUpper1;
+    private void validateDeliveryTimeWindow(long deliveryTimeWindowUpper, long deliveryTimeWindowLower) {
+        if (deliveryTimeWindowUpper - deliveryTimeWindowLower > 0) {
+            this.deliveryTimeWindowUpper = deliveryTimeWindowUpper;
         } else {
-            this.deliveryTimeWindowUpper = deliveryTimeWindowLower1 + timeWindowDefault;
+            this.deliveryTimeWindowUpper = deliveryTimeWindowLower + timeWindowDefault;
         }
     }
 
