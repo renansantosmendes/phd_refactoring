@@ -25,7 +25,16 @@ public class Request implements Comparable, Cloneable {
     private Long timeWindowDefault = (long) 10;
 
     public Request() {
+        this.id = 0;
 
+        this.origin = 0;
+        this.destination = 0;
+
+        this.pickupTimeWindowLower = 0L;
+        this.pickupTimeWindowUpper = 0L;
+
+        this.deliveryTimeWindowLower = 0L;
+        this.deliveryTimeWindowUpper = 0L;
     }
 
     public Request(int id, int origin, int destination, long pickupTimeWindowLower, long deliveryTimeWindowLower) {
@@ -295,10 +304,17 @@ public class Request implements Comparable, Cloneable {
 
     @Override
     public int compareTo(Object obj) {
+        if (obj == null) {
+            return 0;
+        }
         return compareTo((Request) obj);
     }
 
     public int compareTo(Request request) {
+        if (request == null) {
+            return 0;
+        }
+
         if (request.getId().compareTo(this.id) == 0) {
             return 0;
         }
