@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 /**
@@ -42,11 +43,9 @@ public class RequestTest {
     public void testGetId() {
         System.out.println("getId");
         Request instance = new Request();
-        Integer expResult = null;
         Integer result = instance.getId();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(Integer.class.isInstance(result));
+
     }
 
     /**
@@ -58,8 +57,7 @@ public class RequestTest {
         Integer id = null;
         Request instance = new Request();
         instance.setId(id);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(Integer.class.isInstance(instance.getId()));
     }
 
     /**
@@ -72,8 +70,6 @@ public class RequestTest {
         int expResult = 0;
         int result = instance.getOrigin();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -82,11 +78,10 @@ public class RequestTest {
     @Test
     public void testSetOrigin() {
         System.out.println("setOrigin");
-        int origin = 0;
+        int origin = 1;
         Request instance = new Request();
         instance.setOrigin(origin);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(instance.getOrigin(), origin);
     }
 
     /**
@@ -98,9 +93,7 @@ public class RequestTest {
         Request instance = new Request();
         int expResult = 0;
         int result = instance.getDestination();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -112,8 +105,7 @@ public class RequestTest {
         int destination = 0;
         Request instance = new Request();
         instance.setDestination(destination);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(destination, instance.getDestination());
     }
 
     /**
@@ -126,8 +118,6 @@ public class RequestTest {
         long expResult = 0L;
         long result = instance.getPickupTimeWindowLower();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -139,8 +129,7 @@ public class RequestTest {
         long pickupE = 0L;
         Request instance = new Request();
         instance.setPickupTimeWindowLower(pickupE);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        testGetPickupTimeWindowLower();
     }
 
     /**
@@ -153,8 +142,6 @@ public class RequestTest {
         long expResult = 0L;
         long result = instance.getPickupTimeWindowUpper();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -166,8 +153,7 @@ public class RequestTest {
         long pickupTimeWindowUpper = 0L;
         Request instance = new Request();
         instance.setPickupTimeWindowUpper(pickupTimeWindowUpper);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        testGetPickupTimeWindowUpper();
     }
 
     /**
@@ -180,8 +166,6 @@ public class RequestTest {
         long expResult = 0L;
         long result = instance.getDeliveryTimeWindowLower();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -193,8 +177,7 @@ public class RequestTest {
         long deliveryTimeWindowLower = 0L;
         Request instance = new Request();
         instance.setDeliveryTimeWindowLower(deliveryTimeWindowLower);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        testGetDeliveryTimeWindowLower();
     }
 
     /**
@@ -207,8 +190,6 @@ public class RequestTest {
         long expResult = 0L;
         long result = instance.getDeliveryTimeWindowUpper();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -220,8 +201,7 @@ public class RequestTest {
         long deliveryTimeWindowUpper = 0L;
         Request instance = new Request();
         instance.setDeliveryTimeWindowUpper(deliveryTimeWindowUpper);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        testGetDeliveryTimeWindowUpper();
     }
 
     /**
@@ -231,11 +211,9 @@ public class RequestTest {
     public void testGetPickupTime() {
         System.out.println("getPickupTime");
         Request instance = new Request();
-        Long expResult = null;
+        Long expResult = -1L;
         Long result = instance.getPickupTime();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -244,11 +222,10 @@ public class RequestTest {
     @Test
     public void testSetPickupTime() {
         System.out.println("setPickupTime");
-        Long pickupTime = null;
+        Long pickupTime = -1L;
         Request instance = new Request();
         instance.setPickupTime(pickupTime);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        testGetPickupTime();
     }
 
     /**
@@ -274,8 +251,7 @@ public class RequestTest {
         long deliveryTime = 0L;
         Request instance = new Request();
         instance.setDeliveryTime(deliveryTime);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        testGetTimeWindowDefault();
     }
 
     /**
@@ -287,9 +263,7 @@ public class RequestTest {
         Request instance = new Request();
         long expResult = 0L;
         long result = instance.getTimeWindowDefault();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult, result);        
     }
 
     /**
@@ -301,8 +275,6 @@ public class RequestTest {
         long timeWindowDefault = 0L;
         Request instance = new Request();
         instance.setTimeWindowDefault(timeWindowDefault);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -315,8 +287,6 @@ public class RequestTest {
         String expResult = "";
         String result = instance.getStringToFile();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -420,5 +390,5 @@ public class RequestTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }
