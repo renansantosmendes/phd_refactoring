@@ -51,12 +51,17 @@
     <dependencies><!-- https://mvnrepository.com/artifact/org.moeaframework/moeaframework -->
         <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         
-        <dependency>
+<!--        <dependency>
             <groupId>nz.ac.waikato.cms.weka</groupId>
             <artifactId>weka-stable</artifactId>
             <version>3.8.0</version>
+        </dependency>-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
         </dependency>
-
         
         <dependency>
             <groupId>mysql</groupId>
@@ -81,13 +86,7 @@
             <artifactId>jfreechart</artifactId>
             <version>1.0.19</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/junit/junit -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.1</version>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
