@@ -192,13 +192,6 @@ public class VRPDRT_Main {
 //                requestsWhichLeavesInNode, numberOfNodes, vehicleCapacity, setOfVehicles, listOfNonAttendedRequests, requestList, loadIndexList, timeBetweenNodes,
 //                distanceBetweenNodes, timeWindows, currentTime, lastNode);
 //        
-        System.out.println("Start running Off-MOEAD...");
-        offMOEAD(instanceName, neighborSize, numberOfEvaluations, intervalOfAggregations, maximumNumberOfReplacedSolutions, reducedDimension, CorrelationType.PEARSON,
-                null, transformationList, parameters, nadirPoint, populationSize, maximumNumberOfGenerations, functionType,
-                maximumNumberOfExecutions, neighborhoodSelectionProbability, probabilityOfMutation, probabilityOfCrossover, requests, requestsWhichBoardsInNode,
-                requestsWhichLeavesInNode, numberOfNodes, vehicleCapacity, setOfVehicles, listOfNonAttendedRequests, requestList, loadIndexList, timeBetweenNodes,
-                distanceBetweenNodes, timeWindows, currentTime, lastNode, savePath);
-
         if (algorithm == 1) {
             System.out.println("Start running OnCL-MOEAD...");
             onMOEAD(instanceName, neighborSize, numberOfEvaluations, intervalOfAggregations, maximumNumberOfReplacedSolutions, reducedDimension, CorrelationType.PEARSON,
