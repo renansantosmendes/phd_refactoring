@@ -136,7 +136,7 @@ public class Algorithms {
             r.setExtraTime(soma);
             somaTotal += soma;
         }
-        S.setTempoExtraTotal(somaTotal);
+        S.setExtraTimeSum(somaTotal);
         return totalCost;
     }
 
@@ -839,7 +839,7 @@ public class Algorithms {
         solution.setNonAttendedRequestsList(listOfNonAttendedRequests);
         evaluateSolution(solution, nadirPoint, distanceBetweenNodes, vehicleCapacity, requests);
         solution.setLogger(log);
-        solution.linkTheRoutes();
+        solution.linkRoutes();
 
         return solution;
     }
@@ -976,7 +976,7 @@ public class Algorithms {
         evaluateAggregatedObjectiveFunctionsForMOEAD(transformationList, parameters, solution);
 
         solution.setLogger(log);
-        solution.linkTheRoutes();
+        solution.linkRoutes();
 
         return solution;
     }
@@ -1024,7 +1024,7 @@ public class Algorithms {
 
             evaluateSolution(solution, nadirPoint, data.getDistanceBetweenNodes(), data.getVehicleCapacity(), data.getListOfRequests());
             solution.setLogger(log);
-            solution.linkTheRoutes();
+            solution.linkRoutes();
 
             //requestCounter++;
         }
@@ -1977,8 +1977,8 @@ public class Algorithms {
         setOfRoutes.addAll(solution2.getSetOfRoutes());
 
         ProblemSolution solution = new ProblemSolution(reducedDimension);
-        solution.setSetOfRoutes(setOfRoutes);
-        solution.linkTheRoutes();
+        solution.setRoutes(setOfRoutes);
+        solution.linkRoutes();
         evaluateSolution(solution, nadirPoint, distanceBetweenNodes,  vehicleCapacity, listOfRequests);
         evaluateAggregatedObjectiveFunctions(parameters, solution);
         return solution;
@@ -1994,8 +1994,8 @@ public class Algorithms {
         setOfRoutes.addAll(solution2.getSetOfRoutes());
 
         ProblemSolution solution = new ProblemSolution(reducedDimension);
-        solution.setSetOfRoutes(setOfRoutes);
-        solution.linkTheRoutes();
+        solution.setRoutes(setOfRoutes);
+        solution.linkRoutes();
         evaluateSolution(solution, nadirPoint, distanceBetweenNodes, vehicleCapacity, listOfRequests);
         evaluateAggregatedObjectiveFunctionsForOnlineAlgorithm(parameters, transfomationList, solution);
         return solution;
@@ -3139,7 +3139,7 @@ public class Algorithms {
             Algorithms.evaluateAggregatedObjectiveFunctions(solution, 1, 1, 1, 1, 1);
             solution.setObjectiveFunction(FuncaoDeAvaliacao(solution, listRequests, c));
             solution.setLogger(log);
-            solution.linkTheRoutes();
+            solution.linkRoutes();
             //solutionCost = FO(S);// ???IMPORTANTE?????
 
             tempoInicio = (System.nanoTime() * 0.000001);
