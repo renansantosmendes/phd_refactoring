@@ -11,7 +11,7 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
 
     private List<Double> originalObjectives;
     private List<Double> originalObjectivesNormalized;
-    private Set<Route> setOfRoutes;
+    private Set<Route> routes;
     private double objectiveFunction;
     private double totalDistance;//f1
     private double totalDeliveryDelay;//f2
@@ -51,10 +51,10 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
     private List<Request> nonAttendedRequestsList;
     private List<Integer> linkedRouteList;
     private String logger;
-    private int tempoExtraTotal;
+    private int extraTimeSum;
 
     public ProblemSolution() {
-        setOfRoutes = new HashSet<Route>();
+        routes = new HashSet<Route>();
         listOfSolutionsDominatedByThisSolution = new ArrayList<>();
         objectiveFunction = -1;
         totalDistance = -1;
@@ -98,7 +98,7 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
     }
 
     public ProblemSolution(int reducedDimension) {
-        setOfRoutes = new HashSet<Route>();
+        routes = new HashSet<Route>();
         listOfSolutionsDominatedByThisSolution = new ArrayList<>();
         objectiveFunction = -1;
         totalDistance = -1;
@@ -156,8 +156,8 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
         this();
         this.originalObjectives.clear();
         this.originalObjectives.addAll(objectives);
-        this.setOfRoutes.clear();
-        this.setOfRoutes.addAll(setOfRoutes);
+        this.routes.clear();
+        this.routes.addAll(setOfRoutes);
         this.objectiveFunction = objectiveFunction;
         this.totalDistance = totalDistance;
         this.totalDeliveryDelay = totalDeliveryDelay;
@@ -201,11 +201,11 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
         this.linkedRouteList.clear();
         this.linkedRouteList.addAll(linkedRouteList);
         this.logger = logger;
-        this.tempoExtraTotal = tempoExtraTotal;
+        this.extraTimeSum = tempoExtraTotal;
     }
 
     public ProblemSolution(ProblemSolution solution) {
-        setOfRoutes = new HashSet<Route>(solution.getSetOfRoutes());
+        routes = new HashSet<Route>(solution.getSetOfRoutes());
         listOfSolutionsDominatedByThisSolution = new ArrayList<>(solution.getListOfSolutionsDominatedByThisSolution());
         objectiveFunction = solution.getObjectiveFunction();
         totalDistance = solution.getTotalDistance();
@@ -239,7 +239,7 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
         aggregatedObjective2Normalized = solution.getAggregatedObjective2Normalized();
         fitness = solution.getFitness();
 
-        tempoExtraTotal = solution.getTempoExtraTotal();
+        extraTimeSum = solution.getTempoExtraTotal();
         nonAttendedRequestsList = new ArrayList<Request>(solution.getNonAttendedRequestsList());
         linkedRouteList = new ArrayList<Integer>(solution.getLinkedRouteList());
         logger = new String(solution.getLogger());
@@ -251,7 +251,7 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
     }
 
     public void setSolution(ProblemSolution solution) {
-        setSetOfRoutes(solution.getSetOfRoutes());
+        setRoutes(solution.getSetOfRoutes());
         setListOfSolutionsDominatedByThisSolution(solution.getListOfSolutionsDominatedByThisSolution());
         setObjectiveFunction(solution.getObjectiveFunction());
 
@@ -291,12 +291,12 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
         setNonAttendedRequestsList(solution.getNonAttendedRequestsList());
         setLinkedRouteList(solution.getLinkedRouteList());
         setLogger(solution.getLogger());
-        setTempoExtraTotal(solution.getTempoExtraTotal());
+        setExtraTimeSum(solution.getTempoExtraTotal());
     }
 
     public void resetSolution(double FO, int FO1, int FO2, long FO3, int FO4, int FO5, int FO6,
             int FO7, int FO8, double F9) {
-        setOfRoutes.clear();
+        routes.clear();
         listOfSolutionsDominatedByThisSolution.clear();
         objectiveFunction = FO;
 
@@ -320,7 +320,6 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
     }
 
     public void setObjectivesList() {
-        //alterei esse método aqui pra ver se estava com problema
         this.originalObjectives.clear();
         this.originalObjectives.add((double) this.totalDistance);//f1
         this.originalObjectives.add((double) this.totalDeliveryDelay);//f2
@@ -335,7 +334,6 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
     }
     
     public void setObjectivesNormalizedList() {
-        //alterei esse método aqui pra ver se estava com problema
         this.originalObjectivesNormalized.clear();
         this.originalObjectivesNormalized.add((double) this.totalDistanceNormalized);//f1
         this.originalObjectivesNormalized.add((double) this.totalDeliveryDelayNormalized);//f2
@@ -350,7 +348,6 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
 
     
     public void setObjectivesList(Parameters parameters) {
-        //alterei esse método aqui pra ver se estava com problema
         this.originalObjectives.clear();
         this.originalObjectives.add((double) this.totalDistance);//f1
         this.originalObjectives.add((double) this.totalDeliveryDelay);//f2
@@ -365,24 +362,24 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
     }
 
     public int getAttendanceRequestSize() {
-        int size = 0;
-        for (Route route : this.setOfRoutes) {
-            size += route.getRequestAttendanceList().size();
+        int numberOfAttendedRequests = 0;
+        for (Route route : this.routes) {
+            numberOfAttendedRequests += route.getRequestAttendanceList().size();
         }
 
-        return size;
+        return numberOfAttendedRequests;
     }
 
     public List<Integer> getAttendanceRequestList() {
-        List<Integer> requestList = new ArrayList<>();
-        for (Route route : this.setOfRoutes) {
-            requestList.addAll(route.getRequestAttendanceIdsList());
+        List<Integer> attendedRequests = new ArrayList<>();
+        for (Route route : this.routes) {
+            attendedRequests.addAll(route.getRequestAttendanceIdsList());
         }
-        return requestList;
+        return attendedRequests;
     }
 
-    public double getObjective(int n) {
-        return this.reducedObjectives[n];
+    public double getObjective(int objectiveNumber) {
+        return this.reducedObjectives[objectiveNumber];
     }
 
     public double[] getAggregatedObjectives() {
@@ -398,19 +395,19 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
     }
 
     public List<Double> getListOfAggregatedObjectives() {
-        List<Double> list = new ArrayList<>();
+        List<Double> aggregatedObjectives = new ArrayList<>();
 
-        for (int i = 0; i < this.reducedObjectives.length; i++) {
-            list.add(this.reducedObjectives[i]);
+        for (int objectiveNumber = 0; objectiveNumber < this.reducedObjectives.length; objectiveNumber++) {
+            aggregatedObjectives.add(this.reducedObjectives[objectiveNumber]);
         }
-        return list;
+        return aggregatedObjectives;
     }
 
     public Set<Route> getSetOfRoutes() {
-        return setOfRoutes;
+        return routes;
     }
 
-    public Set<List<Integer>> getRoutesForMap() {
+    public Set<List<Integer>> getRoutesForMapCreation() {
         Set<List<Integer>> routes = new HashSet<>();
         for (Route route : this.getSetOfRoutes()) {
             routes.add(route.getNodesVisitationList());
@@ -418,7 +415,7 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
         return routes;
     }
 
-    public List<List<Integer>> getRoutesListForMap() {
+    public List<List<Integer>> getRoutesListForMapCreation() {
         List<List<Integer>> routes = new ArrayList<>();
         for (Route route : this.getSetOfRoutes()) {
             routes.add(new ArrayList<>(route.getNodesVisitationList()));
@@ -427,11 +424,11 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
     }
 
     public void getStaticMapWithAllRoutes(List<Node> nodesList, String adjacenciesTable, String nodesTable) throws IOException {
-        new GoogleStaticMap(nodesList, this.getRoutesForMap(), adjacenciesTable, nodesTable);
+        new GoogleStaticMap(nodesList, this.getRoutesForMapCreation(), adjacenciesTable, nodesTable);
     }
 
     public void getStaticMapForEveryRoute(List<Node> nodesList, String adjacenciesTable, String nodesTable) throws IOException {
-        for (List<Integer> route : this.getRoutesListForMap()) {
+        for (List<Integer> route : this.getRoutesListForMapCreation()) {
             new GoogleStaticMap(nodesList, route, adjacenciesTable, nodesTable);
         }
     }
@@ -464,9 +461,9 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
         this.reducedObjectives = objectives;
     }
 
-    public void setSetOfRoutes(Set<Route> conjRotas) {
-        this.setOfRoutes.clear();
-        this.setOfRoutes.addAll(new HashSet<Route>(conjRotas));
+    public void setRoutes(Set<Route> routes) {
+        this.routes.clear();
+        this.routes.addAll(new HashSet<Route>(routes));
     }
 
     public void setListOfSolutionsDominatedByThisSolution(List<Integer> listOfSolutionsDominatedByThisSolution) {
@@ -474,8 +471,8 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
         this.listOfSolutionsDominatedByThisSolution.addAll(listOfSolutionsDominatedByThisSolution);
     }
 
-    public void addL(int posicao) {
-        this.listOfSolutionsDominatedByThisSolution.add(posicao);
+    public void addL(int position) {
+        this.listOfSolutionsDominatedByThisSolution.add(position);
     }
 
     public void addnDom() {
@@ -567,7 +564,7 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
     }
 
     public int getTempoExtraTotal() {
-        return this.tempoExtraTotal;
+        return this.extraTimeSum;
     }
 
     public double getTotalDistanceNormalized() {
@@ -618,8 +615,8 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
         return originalObjectivesNormalized;
     }
     
-    public void setTempoExtraTotal(int tempo) {
-        this.tempoExtraTotal = tempo;
+    public void setExtraTimeSum(int tempo) {
+        this.extraTimeSum = tempo;
     }
 
     public void setObjectiveFunction(double objectiveFunction) {
@@ -757,8 +754,8 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
         this.totalOccupationRateNormalized = totalOccupationRateNormalized;
     }
 
-    public void linkTheRoutes() {
-        for (Route r : setOfRoutes) {
+    public void linkRoutes() {
+        for (Route r : routes) {
             linkedRouteList.addAll(r.getNodesVisitationList().subList(1, r.getNodesVisitationList().size() - 1));
         }
     }
@@ -772,7 +769,6 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
     }
 
     public void normalizeTotalDistance(long minDistance, long maxDistance) {
-        //System.out.println("TotalDistance = " + this.getTotalDistance());
         double normalizedValue = (double) (this.getTotalDistance() - minDistance) / (maxDistance - minDistance);
         this.setTotalDistanceNormalized(normalizedValue);
     }
@@ -882,13 +878,14 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
         
         s = getListOfAggregatedObjectives() + "\t" + getStringWithOriginalObjectivesForCsvFile() + " " + 
                 getStringWithNormalizedOriginalObjectivesForCsvFile() + " " + this.getAttendanceRequestSize() + " ";
-        int indice = 1;
-        String listaAtendimento = " ";
-        for (Route r : setOfRoutes) {
-            s += "R" + indice + ": " + r + " ";
-            listaAtendimento += "R" + indice++ + ": ";
+        
+        int routeNumber = 1;
+        String attendanceList = " ";
+        for (Route r : routes) {
+            s += "R" + routeNumber + ": " + r + " ";
+            attendanceList += "R" + routeNumber++ + ": ";
             for (Request req : r.getRequestAttendanceList()) {
-                listaAtendimento += req + " ";
+                attendanceList += req + " ";
             }
         }
         return s;
@@ -899,21 +896,21 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
         return obj instanceof ProblemSolution && equals((ProblemSolution) obj);
     }
 
-    public boolean equals(ProblemSolution solucao2) {
-        if (this == solucao2) {
+    public boolean equals(ProblemSolution solution) {
+        if (this == solution) {
             return true;
         }
 
-        if (solucao2 == null) {
+        if (solution == null) {
             return false;
         }
 
-        if (setOfRoutes.size() != solucao2.getSetOfRoutes().size()) {
+        if (routes.size() != solution.getSetOfRoutes().size()) {
             return false;
         }
 
-        for (Iterator<Route> i = setOfRoutes.iterator(); i.hasNext();) {
-            if (!solucao2.getSetOfRoutes().contains(i.next())) {
+        for (Iterator<Route> route = routes.iterator(); route.hasNext();) {
+            if (!solution.getSetOfRoutes().contains(route.next())) {
                 return false;
             }
         }
@@ -924,25 +921,25 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
     @Override
     public int hashCode() {
 
-        if (setOfRoutes == null) {
+        if (routes == null) {
             return -1;
         }
 
         int hash = 0;
 
-        for (Route i : setOfRoutes) {
-            hash += i.hashCode();
+        for (Route route : routes) {
+            hash += route.hashCode();
         }
 
         return hash;
     }
 
     @Override
-    public int compareTo(ProblemSolution solucao) {
-        if (this.getFitness() > solucao.getFitness()) {
+    public int compareTo(ProblemSolution solution) {
+        if (this.getFitness() > solution.getFitness()) {
             return 1;
         }
-        if (this.getFitness() < solucao.getFitness()) {
+        if (this.getFitness() < solution.getFitness()) {
             return -1;
         }
         return 0;
@@ -952,7 +949,7 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
     public Object clone() {
 
         Set<Route> routesClone = new HashSet<>();
-        for (Route route : setOfRoutes) {
+        for (Route route : routes) {
             routesClone.add((Route) route.clone());
         }
 
@@ -966,7 +963,7 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
                 aggregatedObjective2, aggregatedObjective1Normalized, aggregatedObjective2Normalized,
                 numberOfDominatedSolutionsByThisSolution, numberOfSolutionsWichDomineThisSolution,
                 listOfSolutionsDominatedByThisSolution, fitness, dif, crowdDistance, S,
-                R, nonAttendedRequestsList, linkedRouteList, logger, tempoExtraTotal
+                R, nonAttendedRequestsList, linkedRouteList, logger, extraTimeSum
         );
     }
 
@@ -981,7 +978,6 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
         this.setDeliveryTimeWindowAntecipation(objectiveFunction8());
         this.setTotalOccupationRate(objectiveFunction9(vehicleCapacity));
         this.setObjectivesList();
-        //Algorithms.evaluateAggregatedObjectiveFunctions(this, 1, 1, 1, 1, 1);
         this.setObjectiveFunction(evaluationFunction());
     }
 
@@ -996,7 +992,6 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
         this.setDeliveryTimeWindowAntecipation(objectiveFunction8());
         this.setTotalOccupationRate(objectiveFunction9(vehicleCapacity));
         this.setObjectivesList(parameters);
-        //Algorithms.evaluateAggregatedObjectiveFunctions(this, 1, 1, 1, 1, 1);
         this.setObjectiveFunction(evaluationFunction());
     }
 

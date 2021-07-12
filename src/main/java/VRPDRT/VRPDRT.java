@@ -183,7 +183,7 @@ public class VRPDRT {
         solution.setNonAttendedRequestsList(nonAttendedRequests);
         solution.evaluate(distanceBetweenNodes, vehicleCapacity, parameters);
         solution.setLogger(log);
-        solution.linkTheRoutes();
+        solution.linkRoutes();
         return solution;
     }
 

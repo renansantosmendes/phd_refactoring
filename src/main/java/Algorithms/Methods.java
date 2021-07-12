@@ -754,7 +754,7 @@ public class Methods {
 //        S.setNonAttendedRequestsList(U);
 //        //S.setfObjetivo1(FOp(S, c));
 //        S.setLogger(log);
-//        S.linkTheRoutes();
+//        S.linkRoutes();
         //S.setFuncaoObjetivo(FuncaoObjetivo(S,c));
         solution.setNonAttendedRequestsList(U);
         solution.setTotalDistance(FO1(solution, c));
@@ -774,7 +774,7 @@ public class Methods {
 
         solution.setObjectiveFunction(FuncaoDeAvaliacao(solution, listRequests, c));
         solution.setLogger(log);
-        solution.linkTheRoutes();
+        solution.linkRoutes();
         //S.setfObjetivo1((int) FuncaoObjetivo(S, c));
         solution.setObjectiveFunction(FuncaoDeAvaliacao(solution, listRequests, c));
         solution.setAggregatedObjectives(new double[reducedDimension]);
