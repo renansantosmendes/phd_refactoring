@@ -1024,7 +1024,7 @@ public class ProblemSolution implements Comparable<ProblemSolution> {
                     sum += dif;
                 }
             }
-            routes.setTempoExtra(sum);
+            routes.setExtraTime(sum);
             totalSum += sum;
         }
         return totalSum;

@@ -133,7 +133,7 @@ public class Algorithms {
                     soma += dif;
                 }
             }
-            r.setTempoExtra(soma);
+            r.setExtraTime(soma);
             somaTotal += soma;
         }
         S.setTempoExtraTotal(somaTotal);
@@ -169,7 +169,7 @@ public class Algorithms {
                     soma += dif;
                 }
             }
-            r.setTempoExtra(soma);
+            r.setExtraTime(soma);
             somaTotal += soma;
         }
         return somaTotal;
@@ -745,7 +745,7 @@ public class Algorithms {
             log += "\tGROute " + (currentVehicle + 1) + " ";
 
             //Step 3
-            route.addVisitedNodes(0);
+            route.addVisitedNode(0);
 
             currentTime = (long) 0;
             //-------------------------------------------------------------------
@@ -880,7 +880,7 @@ public class Algorithms {
             log += "\tGROute " + (currentVehicle + 1) + " ";
 
             //Step 3
-            route.addVisitedNodes(0);
+            route.addVisitedNode(0);
 
             currentTime = (long) 0;
             //-------------------------------------------------------------------
@@ -996,7 +996,7 @@ public class Algorithms {
             currentVehicle = vehicleIterator.next();
             log += "\tGRoute " + (currentVehicle + 1) + " ";
 
-            route.addVisitedNodes(0);
+            route.addVisitedNode(0);
 
             data.setLastNode(route.getLastNode());
 
@@ -1005,13 +1005,13 @@ public class Algorithms {
             route.setDepartureTimeFromDepot(data.getCurrentTime());
 
             int origin = requestList.get(requestCounter).getOrigin();
-            route.addVisitedNodes(origin);
+            route.addVisitedNode(origin);
             data.setCurrentTime(data.getCurrentTime() + data.getTimeBetweenNodes().get(data.getLastNode()).get(origin));
             route.boardPassenger(requestList.get(requestCounter), data.getCurrentTime());
             data.setLastNode(route.getLastNode());
 
             int destination = requestList.get(requestCounter).getDestination();
-            route.addVisitedNodes(destination);
+            route.addVisitedNode(destination);
             data.setCurrentTime(data.getCurrentTime() + data.getTimeBetweenNodes().get(data.getLastNode()).get(destination));
             route.leavePassenger(requestList.get(requestCounter), data.getCurrentTime());
             data.setLastNode(route.getLastNode());
@@ -1019,7 +1019,7 @@ public class Algorithms {
             data.setCurrentTime(data.getCurrentTime() + data.getTimeBetweenNodes().get(data.getLastNode()).get(0));
             solution.getSetOfRoutes().add(route);
 
-            route.addVisitedNodes(0);
+            route.addVisitedNode(0);
             requestList.remove(0);
 
             evaluateSolution(solution, nadirPoint, data.getDistanceBetweenNodes(), data.getVehicleCapacity(), data.getListOfRequests());
@@ -1123,7 +1123,7 @@ public class Algorithms {
             log += "\tROTA " + (currentK + 1) + " ";
 
             //Step 3
-            R.addVisitedNodes(0);
+            R.addVisitedNode(0);
             currentTime = 0;
 
             Integer lastNode = R.getLastNode();
@@ -1194,7 +1194,7 @@ public class Algorithms {
 
                 currentTime += d.get(lastNode).get(newNode);
 
-                R.addVisitedNodes(newNode);
+                R.addVisitedNode(newNode);
                 lastNode = R.getLastNode();
 
                 List<Request> listRequestAux = new LinkedList<>(Pout.get(lastNode));
@@ -1313,7 +1313,7 @@ public class Algorithms {
 
                 //Step 8
                 if (P.isEmpty()) {
-                    R.addVisitedNodes(0);
+                    R.addVisitedNode(0);
                     currentTime += d.get(lastNode).get(0);
                     solution.getSetOfRoutes().add(R);
                 }
@@ -1422,7 +1422,7 @@ public class Algorithms {
             log += "\tROTA " + (currentK + 1) + " ";
 
             //Step 3
-            R.addVisitedNodes(0);
+            R.addVisitedNode(0);
             currentTime = 0;
 
             Integer lastNode = R.getLastNode();
@@ -1493,7 +1493,7 @@ public class Algorithms {
 
                 currentTime += d.get(lastNode).get(newNode);
 
-                R.addVisitedNodes(newNode);
+                R.addVisitedNode(newNode);
                 lastNode = R.getLastNode();
 
                 List<Request> listRequestAux = new LinkedList<>(Pout.get(lastNode));
@@ -1612,7 +1612,7 @@ public class Algorithms {
 
                 //Step 8
                 if (P.isEmpty()) {
-                    R.addVisitedNodes(0);
+                    R.addVisitedNode(0);
                     currentTime += d.get(lastNode).get(0);
                     solution.getSetOfRoutes().add(R);
                 }
@@ -1730,7 +1730,7 @@ public class Algorithms {
             /*if(currentK+1 == 3)
              System.out.println("ROTA BREMA");*/
             //Step 3
-            R.addVisitedNodes(0);
+            R.addVisitedNode(0);
             currentTime = 0;
 
             Integer lastNode = R.getLastNode();
@@ -1802,7 +1802,7 @@ public class Algorithms {
 
                 currentTime += d.get(lastNode).get(newNode);
 
-                R.addVisitedNodes(newNode);
+                R.addVisitedNode(newNode);
                 lastNode = R.getLastNode();
 
                 List<Request> listRequestAux = new LinkedList<>(Pout.get(lastNode));
@@ -1921,7 +1921,7 @@ public class Algorithms {
 
                 //Step 8
                 if (P.isEmpty()) {
-                    R.addVisitedNodes(0);
+                    R.addVisitedNode(0);
                     currentTime += d.get(lastNode).get(0);
                     solution.getSetOfRoutes().add(R);
                 }
@@ -2674,7 +2674,7 @@ public class Algorithms {
                 log += "\tGROTA " + (currentK + 1) + " ";
 
                 //Step 3
-                R.addVisitedNodes(0);
+                R.addVisitedNode(0);
                 long currentTime = 0;
 
                 Double min, max;
@@ -2937,7 +2937,7 @@ public class Algorithms {
 
                     currentTime += d.get(lastNode).get(newNode);
 
-                    R.addVisitedNodes(newNode);
+                    R.addVisitedNode(newNode);
                     lastNode = R.getLastNode();
 
                     CRL.clear();
@@ -3095,7 +3095,7 @@ public class Algorithms {
 
                 //Step 8
                 if (P.isEmpty()) {
-                    R.addVisitedNodes(0);
+                    R.addVisitedNode(0);
                     //log += R.toString()+"\n";
                     //System.out.println("Route "+R+" - "+currentTime);
                     //solutionCost += currentTime;

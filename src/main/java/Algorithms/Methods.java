@@ -296,7 +296,7 @@ public class Methods {
 
                 currentTime += d.get(lastNode).get(newNode);
 
-                R.addVisitedNodes(newNode);
+                R.addVisitedNode(newNode);
                 lastNode = R.getLastNode();
                 break;
             }
@@ -458,7 +458,7 @@ public class Methods {
     public static long FinalizaRota(List<Request> P, Route R, Long currentTime, Integer lastNode, List<List<Long>> d, ProblemSolution S) {
         //-------------------------------------------------------------------------------------------------------------------------------------- 
         if (P.isEmpty()) {
-            R.addVisitedNodes(0);
+            R.addVisitedNode(0);
             currentTime += d.get(lastNode).get(0);
             S.getSetOfRoutes().add(R);
         }
@@ -674,7 +674,7 @@ public class Methods {
             log += "\tGROTA " + (currentK + 1) + " ";
 
             //Step 3
-            R.addVisitedNodes(0);
+            R.addVisitedNode(0);
             currentTime = (long) 0;
             double max, min;
             lastNode = R.getLastNode();

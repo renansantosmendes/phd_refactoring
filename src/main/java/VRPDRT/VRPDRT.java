@@ -143,7 +143,7 @@ public class VRPDRT {
             currentVehicle = vehicleIterator.next();
             log += "\tGROute " + (currentVehicle + 1) + " ";
 
-            currentRoute.addVisitedNodes(0);
+            currentRoute.addVisitedNode(0);
             currentTime = (long) 0;
 
             lastNode = currentRoute.getLastNode();
@@ -301,7 +301,7 @@ public class VRPDRT {
 
                 currentTime += timeBetweenNodes.get(lastNode).get(newNode);
 
-                currentRoute.addVisitedNodes(newNode);
+                currentRoute.addVisitedNode(newNode);
                 lastNode = currentRoute.getLastNode();
                 break;
             }
@@ -444,7 +444,7 @@ public class VRPDRT {
     public void finalizeRoute() {
         //-------------------------------------------------------------------------------------------------------------------------------------- 
         if (requestList.isEmpty()) {
-            currentRoute.addVisitedNodes(0);
+            currentRoute.addVisitedNode(0);
             currentTime += timeBetweenNodes.get(lastNode).get(0);
             solution.getSetOfRoutes().add(currentRoute);
         }
@@ -513,7 +513,7 @@ public class VRPDRT {
             currentVehicle = vehicleIterator.next();
             log += "\tROTA " + (currentVehicle + 1) + " ";
 
-            currentRoute.addVisitedNodes(0);
+            currentRoute.addVisitedNode(0);
             long currentTime = 0;
 
             Integer lastNode = currentRoute.getLastNode();
@@ -585,7 +585,7 @@ public class VRPDRT {
 
                 currentTime += timeBetweenNodes.get(lastNode).get(newNode);
 
-                currentRoute.addVisitedNodes(newNode);
+                currentRoute.addVisitedNode(newNode);
                 lastNode = currentRoute.getLastNode();
 
                 List<Request> listRequestAux = new LinkedList<>(requestsWhichLeavesInNode.get(lastNode));
@@ -704,7 +704,7 @@ public class VRPDRT {
 
                 //Step 8
                 if (requestList.isEmpty()) {
-                    currentRoute.addVisitedNodes(0);
+                    currentRoute.addVisitedNode(0);
                     currentTime += timeBetweenNodes.get(lastNode).get(0);
                     solution.getSetOfRoutes().add(currentRoute);
                 }
@@ -776,7 +776,7 @@ public class VRPDRT {
             currentVehicle = vehicleIterator.next();
             log += "\tROTA " + (currentVehicle + 1) + " ";
 
-            currentRoute.addVisitedNodes(0);
+            currentRoute.addVisitedNode(0);
             long currentTime = 0;
 
             Integer lastNode = currentRoute.getLastNode();
@@ -848,7 +848,7 @@ public class VRPDRT {
 
                 currentTime += timeBetweenNodes.get(lastNode).get(newNode);
 
-                currentRoute.addVisitedNodes(newNode);
+                currentRoute.addVisitedNode(newNode);
                 lastNode = currentRoute.getLastNode();
 
                 List<Request> listRequestAux = new LinkedList<>(requestsWhichLeavesInNode.get(lastNode));
@@ -967,7 +967,7 @@ public class VRPDRT {
 
                 //Step 8
                 if (requestList.isEmpty()) {
-                    currentRoute.addVisitedNodes(0);
+                    currentRoute.addVisitedNode(0);
                     currentTime += timeBetweenNodes.get(lastNode).get(0);
                     solution.getSetOfRoutes().add(currentRoute);
                 }

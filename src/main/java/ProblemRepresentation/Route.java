@@ -27,26 +27,29 @@ public class Route implements Comparable<Route> {
         occupationRate = route.getOccupationRate();
     }
 
-    public Route(List<Integer> nodesVisitationList, List<Integer> vehicleOccupationWhenLeavesNode, 
-            List<Long> timeListTheVehicleLeavesTheNode, List<Request> requestAttendanceList, Integer tempoExtra, 
+    public Route(List<Integer> nodesVisitationList,
+            List<Integer> vehicleOccupationWhenLeavesNode,
+            List<Long> timeListTheVehicleLeavesTheNode,
+            List<Request> requestAttendanceList,
+            Integer tempoExtra,
             double occupationRate) {
-        
+
         this();
         this.nodesVisitationList.clear();
         this.nodesVisitationList.addAll(nodesVisitationList);
-        
+
         this.vehicleOccupationWhenLeavesNode.clear();
         this.vehicleOccupationWhenLeavesNode.addAll(vehicleOccupationWhenLeavesNode);
-        
+
         this.timeListTheVehicleLeavesTheNode.clear();
         this.timeListTheVehicleLeavesTheNode.addAll(timeListTheVehicleLeavesTheNode);
-        
+
         this.requestAttendanceList.clear();
         this.requestAttendanceList.addAll(requestAttendanceList);
         this.tempoExtra = tempoExtra;
         this.occupationRate = occupationRate;
     }
-    
+
     public List<Integer> getNodesVisitationList() {
         return nodesVisitationList;
     }
@@ -77,14 +80,14 @@ public class Route implements Comparable<Route> {
     public List<Request> getRequestAttendanceList() {
         return requestAttendanceList;
     }
-    
+
     public List<Integer> getRequestAttendanceIdsList() {
-        List<Integer> ids = new ArrayList<>();
-        for(Request request: this.requestAttendanceList){
-            ids.add(request.getId());
+        List<Integer> requestIds = new ArrayList<>();
+        for (Request request : this.requestAttendanceList) {
+            requestIds.add(request.getId());
         }
-        
-        return ids;
+
+        return requestIds;
     }
 
     public void setRequestAttendanceList(List<Request> requestAttendanceList) {
@@ -93,18 +96,18 @@ public class Route implements Comparable<Route> {
     }
 
     public Integer getLastNode() {
-        int position = nodesVisitationList.size() - 1;
-        return nodesVisitationList.get(position);
+        int lastPosition = nodesVisitationList.size() - 1;
+        return nodesVisitationList.get(lastPosition);
     }
 
     public Integer getActualOccupation() {
-        int posicao = vehicleOccupationWhenLeavesNode.size() - 1;
-        return vehicleOccupationWhenLeavesNode.get(posicao);
+        int lastPosition = vehicleOccupationWhenLeavesNode.size() - 1;
+        return vehicleOccupationWhenLeavesNode.get(lastPosition);
     }
 
     public Long getActualMoment() {
-        int position = timeListTheVehicleLeavesTheNode.size() - 1;
-        return timeListTheVehicleLeavesTheNode.get(position);
+        int lastPosition = timeListTheVehicleLeavesTheNode.size() - 1;
+        return timeListTheVehicleLeavesTheNode.get(lastPosition);
     }
 
     public Integer getTempoExtra() {
@@ -115,8 +118,8 @@ public class Route implements Comparable<Route> {
         return occupationRate;
     }
 
-    public void setTempoExtra(Integer tempo) {
-        tempoExtra = tempo;
+    public void setExtraTime(Integer extraTime) {
+        tempoExtra = extraTime;
     }
 
     public void setOccupationRate(double occupationRate) {
@@ -128,45 +131,20 @@ public class Route implements Comparable<Route> {
     }
 
     public void calculateOccupationRate(int vehicleCapacity) {
-        
-//        List<Integer> list = getVehicleOccupationWhenLeavesNode();
-////        System.out.println("lista");
-////        System.out.println(list);
-//        if(list.get(0) == 0){
-//            list.remove(list.size()-1);
-//            list.remove(0);
-//        }
-//        if (list.get(list.size()-1) == 0){
-//            list.remove(list.size()-1);
-//            
-//            if (list.get(0) == 0){
-//                list.remove(0);
-//            }
-//        }
-//        list.remove(list.size()-1);
-//        list.remove(0);
-//        System.out.println("lista after");
-//        System.out.println(list);
-        
-        
         this.setOccupationRate(this.getVehicleOccupationWhenLeavesNode().stream()
-                .mapToDouble(Integer::valueOf).average() //max()average()
+                .mapToDouble(Integer::valueOf).average()
                 .getAsDouble() / vehicleCapacity);
-        
-//        this.setOccupationRate(list.stream()
-//                .mapToDouble(Integer::valueOf).average() //max()average()
-//                .getAsDouble() / vehicleCapacity);
     }
 
-    public void addVisitedNodes(Integer visitedNode) {
+    public void addVisitedNode(Integer visitedNode) {
         nodesVisitationList.add(visitedNode);
 
-        int posicao = vehicleOccupationWhenLeavesNode.size() - 1;
-        int lotacao;
+        int lastPosition = vehicleOccupationWhenLeavesNode.size() - 1;
+        int occupation;
 
-        if (posicao >= 0) {
-            lotacao = vehicleOccupationWhenLeavesNode.get(posicao);
-            vehicleOccupationWhenLeavesNode.add(lotacao);
+        if (lastPosition >= 0) {
+            occupation = vehicleOccupationWhenLeavesNode.get(lastPosition);
+            vehicleOccupationWhenLeavesNode.add(occupation);
         } else {
             vehicleOccupationWhenLeavesNode.add(0);
         }
@@ -174,35 +152,28 @@ public class Route implements Comparable<Route> {
         timeListTheVehicleLeavesTheNode.add((long) -1);
     }
 
-    public void boardPassenger(Request request, Long horario) {
+    public void boardPassenger(Request request, Long passengerBoardTime) {
         int posicao = vehicleOccupationWhenLeavesNode.size() - 1;
         int lotacao = vehicleOccupationWhenLeavesNode.get(posicao);
 
         vehicleOccupationWhenLeavesNode.set(posicao, lotacao + 1);
+        timeListTheVehicleLeavesTheNode.set(posicao, passengerBoardTime);
 
-        timeListTheVehicleLeavesTheNode.set(posicao, horario);
-
-        request.setPickupTime(horario);
+        request.setPickupTime(passengerBoardTime);
         addAttendedRequest(request);
     }
 
-    public void leavePassenger(Request request, long horario) {
-        int posicao = vehicleOccupationWhenLeavesNode.size() - 1;
-        if (posicao == -1 || posicao != timeListTheVehicleLeavesTheNode.size() - 1) {
-            System.out.println("POSICAO INVALIDA");
-        }
-        int lotacao = vehicleOccupationWhenLeavesNode.get(posicao);
-        vehicleOccupationWhenLeavesNode.set(posicao, lotacao - 1);
-        timeListTheVehicleLeavesTheNode.set(posicao, horario);
+    public void leavePassenger(Request request, long passengerDeliveryTime) {
+        int lastPosition = vehicleOccupationWhenLeavesNode.size() - 1;
+        int vehicleOccupation = vehicleOccupationWhenLeavesNode.get(lastPosition);
+        vehicleOccupationWhenLeavesNode.set(lastPosition, vehicleOccupation - 1);
+        timeListTheVehicleLeavesTheNode.set(lastPosition, passengerDeliveryTime);
 
-        int posListaAtendimento = getRequestAttendanceList().indexOf(request);
-        if (posListaAtendimento == -1) {
-            System.out.println("O CARA " + request);//EIN???????
-        }
-        Request reqArmazenada = getRequestAttendanceList().get(posListaAtendimento);
+        int positionInAttendanceList = getRequestAttendanceList().indexOf(request);
+        Request attendedRequest = getRequestAttendanceList().get(positionInAttendanceList);
 
-        reqArmazenada.setDeliveryTime(horario);
-        getRequestAttendanceList().set(posListaAtendimento, reqArmazenada);
+        attendedRequest.setDeliveryTime(passengerDeliveryTime);
+        getRequestAttendanceList().set(positionInAttendanceList, attendedRequest);
     }
 
     public void addAttendedRequest(Request request) {
@@ -228,21 +199,21 @@ public class Route implements Comparable<Route> {
         return obj instanceof Route && equals((Route) obj);
     }
 
-    public boolean equals(Route rota2) {
-        if (this == rota2) {
+    public boolean equals(Route route) {
+        if (this == route) {
             return true;
         }
 
-        if (rota2 == null) {
+        if (route == null) {
             return false;
         }
 
-        if (nodesVisitationList.size() != rota2.getNodesVisitationList().size()) {
+        if (nodesVisitationList.size() != route.getNodesVisitationList().size()) {
             return false;
         }
 
-        for (int i = 0; i < nodesVisitationList.size(); i++) {
-            if (nodesVisitationList.get(i) != rota2.getNodesVisitationList().get(i)) {
+        for (int visitedNode = 0; visitedNode < nodesVisitationList.size(); visitedNode++) {
+            if (nodesVisitationList.get(visitedNode) != route.getNodesVisitationList().get(visitedNode)) {
                 return false;
             }
         }
@@ -265,34 +236,32 @@ public class Route implements Comparable<Route> {
         }
 
         hash = s.hashCode();
-        //return hash;
-        //System.out.println(this.getRequestAttendanceList().get(0).getId().hashCode());
         return this.getRequestAttendanceList().get(0).getId().hashCode();
     }
 
     @Override
-    public int compareTo(Route r) {
-        if (this.getRequestAttendanceList().size() > r.getRequestAttendanceList().size()) {
+    public int compareTo(Route route) {
+        if (this.getRequestAttendanceList().size() > route.getRequestAttendanceList().size()) {
             return 1;
         }
-        if (this.getRequestAttendanceList().size() < r.getRequestAttendanceList().size()) {
+        if (this.getRequestAttendanceList().size() < route.getRequestAttendanceList().size()) {
             return -1;
         }
         return 0;
     }
-    
+
     @Override
-    public Object clone(){
-        
+    public Object clone() {
+
         List<Request> requestListClone = new ArrayList<>();
-        
-        for(Request request: this.requestAttendanceList){
+
+        for (Request request : this.requestAttendanceList) {
             requestListClone.add(request);
         }
-        
-        return new Route( nodesVisitationList, vehicleOccupationWhenLeavesNode, 
-            timeListTheVehicleLeavesTheNode, requestListClone,  tempoExtra, 
-             occupationRate);
+
+        return new Route(nodesVisitationList, vehicleOccupationWhenLeavesNode,
+                timeListTheVehicleLeavesTheNode, requestListClone, tempoExtra,
+                occupationRate);
     }
 
 }
