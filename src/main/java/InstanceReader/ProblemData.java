@@ -146,7 +146,7 @@ public class ProblemData {
 //    }
 
     public void readExcelInstance()  {
-        ReadDataInExcelFile reader = new ReadDataInExcelFile(this.excelDataFilesPath, instance);
+        ExcelDataFileReader reader = new ExcelDataFileReader(this.excelDataFilesPath, instance);
         this.numberOfNodes = reader.getNumberOfNodes();//<-- erro está aqui
 //        this.nodes = reader.getListOfNodes();
         this.requests = reader.getRequests();

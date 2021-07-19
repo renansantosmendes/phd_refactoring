@@ -14,7 +14,7 @@ import ProblemRepresentation.*;
 import static java.util.stream.Collectors.toSet;
 import static Algorithms.EvolutionaryAlgorithms.initializePopulation;
 import static Algorithms.Algorithms.*;
-import InstanceReader.ReadDataInExcelFile;
+import InstanceReader.ExcelDataFileReader;
 import java.io.IOException;
 import jxl.read.biff.BiffException;
 
@@ -64,15 +64,15 @@ public class Methods {
             Set<Integer> setOfDestinations, Map<Integer, List<Request>> requestsWichBoardsInNode, Map<Integer, List<Request>> requestsWichLeavesInNode,
             Set<Integer> setOfNodes, Integer numberOfNodes, List<Integer> loadIndex) throws IOException, BiffException {
 
-        listOfRequests.addAll(new ReadDataInExcelFile(filePath, instanceName, nodesTable, adjacenciesTable)
+        listOfRequests.addAll(new ExcelDataFileReader(filePath, instanceName, nodesTable, adjacenciesTable)
                 .getRequests());
-        setOfNodes.addAll(new ReadDataInExcelFile(filePath, instanceName, nodesTable, adjacenciesTable)
+        setOfNodes.addAll(new ExcelDataFileReader(filePath, instanceName, nodesTable, adjacenciesTable)
                 .getSetOfNodes());
-        distanceBetweenNodes.addAll(new ReadDataInExcelFile(filePath, instanceName, nodesTable, adjacenciesTable)
+        distanceBetweenNodes.addAll(new ExcelDataFileReader(filePath, instanceName, nodesTable, adjacenciesTable)
                 .getAdjacenciesListOfDistances());
-        timeBetweenNodes.addAll(new ReadDataInExcelFile(filePath, instanceName, nodesTable, adjacenciesTable)
+        timeBetweenNodes.addAll(new ExcelDataFileReader(filePath, instanceName, nodesTable, adjacenciesTable)
                 .getAdjacenciesListOfTimes());
-        numberOfNodes = new ReadDataInExcelFile(filePath, instanceName, nodesTable, adjacenciesTable).getNumberOfNodes();
+        numberOfNodes = new ExcelDataFileReader(filePath, instanceName, nodesTable, adjacenciesTable).getNumberOfNodes();
 
         setOfOrigins.addAll(listOfRequests.stream()
                 .map(Request::getOrigin)

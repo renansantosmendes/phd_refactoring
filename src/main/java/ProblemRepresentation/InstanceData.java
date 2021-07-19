@@ -221,8 +221,6 @@ public class InstanceData {
         this.vehicleCapacity = vehicleCapacity;
     }
     
-    
-    
     public Integer readProblemData() {
         listOfRequests.addAll(new RequestDAO(instanceName).getListOfRequest());
         List<Request> requests = new ArrayList<>();
