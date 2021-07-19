@@ -16,7 +16,7 @@ import static Algorithms.EvolutionaryAlgorithms.onMOEAD;
 import static Algorithms.EvolutionaryAlgorithms.populationGeneratorForWeights;
 import Algorithms.Methods;
 import static Algorithms.Methods.readProblemUsingExcelData;
-import InstanceReader.ReadDataInExcelFile;
+import InstanceReader.ExcelDataFileReader;
 import InstanceReader.ScriptGenerator;
 import ProblemRepresentation.Node;
 import ProblemRepresentation.ProblemSolution;
@@ -156,7 +156,7 @@ public class VrpdrtPaperSolution {
         System.out.println(s);
         System.out.println(s.getStringWithOriginalObjectivesForCsvFile());
 
-        List<Node> nodes = new ReadDataInExcelFile(filePath, instanceName, nodesData, adjacenciesData).getListOfNodes();
+        List<Node> nodes = new ExcelDataFileReader(filePath, instanceName, nodesData, adjacenciesData).getListOfNodes();
         System.out.println(nodes);
 
         s.getStaticMapWithAllRoutes(nodes, "bh_adj_n12s", nodesData);

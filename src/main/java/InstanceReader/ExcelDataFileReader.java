@@ -26,7 +26,7 @@ import jxl.read.biff.BiffException;
  *
  * @author renansantos
  */
-public class ReadDataInExcelFile {
+public class ExcelDataFileReader {
 
     private String filePath;
     private String requestsData;
@@ -37,23 +37,28 @@ public class ReadDataInExcelFile {
     private String adjacenciesFile = "adjacencies.xls";
     private int numberOfNodes = 0;
 
-    public ReadDataInExcelFile(String filePath) {
+    public ExcelDataFileReader(String filePath) {
         this.filePath = filePath;
     }
 
-    public ReadDataInExcelFile(String filePath, String requestsData, String nodesData, String adjacenciesData) {
+    public ExcelDataFileReader(String filePath, String requestsData, String nodesData, String adjacenciesData) {
         this.filePath = filePath;
         this.requestsData = requestsData;
         this.nodesData = nodesData;
         this.adjacenciesData = adjacenciesData;
     }
 
-    public ReadDataInExcelFile(String filePath, Instance instance) {
+    public ExcelDataFileReader(String filePath, Instance instance) {
         this.filePath = filePath;
         instance.buildInstaceNames();
         this.requestsData = instance.getInstanceName();
         this.nodesData = instance.getNodesData();
         this.adjacenciesData = instance.getAdjacenciesData();
+        this.getRequests();
+        this.getSetOfNodes();
+        this.getAdjacenciesListOfDistances();
+        this.getAdjacenciesListOfTimes();
+        this.getNumberOfNodes();
     }
 
     public void saveData(List<Request> requests) {
