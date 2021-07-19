@@ -3,26 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ProblemRepresentation;
+package InstanceReader;
 
 import Algorithms.Methods;
-import InstanceReader.AdjacenciesDAO;
-import InstanceReader.NodeDAO;
-import InstanceReader.RequestDAO;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import InstanceReader.Instance;
+import ProblemRepresentation.Request;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  *
  * @author renansantos
  */
-public class InstanceData {
+public class VrpdrtInstanceData {
     final Long timeWindows = (long) 3;
     private List<Request> listOfRequests = new ArrayList<>();
     private List<List<Integer>> listOfAdjacencies = new LinkedList<>();
@@ -45,14 +38,19 @@ public class InstanceData {
     private String adjacenciesData;
     private int numberOfVehicles = 500;
     private int vehicleCapacity = 1;
+    private Instance instance;
 
-    public InstanceData(String instanceName, String nodesData, String adjacenciesData) {
+    public VrpdrtInstanceData(Instance instance){
+        this.instance = instance;
+    }
+    
+    public VrpdrtInstanceData(String instanceName, String nodesData, String adjacenciesData) {
         this.instanceName = instanceName;
         this.nodesData = nodesData;
         this.adjacenciesData = adjacenciesData;
         Methods.initializeFleetOfVehicles(setOfVehicles, numberOfVehicles);
     }
-
+    
     public List<Request> getListOfRequests() {
         return listOfRequests;
     }
@@ -194,7 +192,7 @@ public class InstanceData {
     }
 
     public static void setCurrentTime(Long currentTime) {
-        InstanceData.currentTime = currentTime;
+        VrpdrtInstanceData.currentTime = currentTime;
     }
 
     public static Integer getLastNode() {
@@ -202,7 +200,7 @@ public class InstanceData {
     }
 
     public static void setLastNode(Integer lastNode) {
-        InstanceData.lastNode = lastNode;
+        VrpdrtInstanceData.lastNode = lastNode;
     }
 
     public int getNumberOfVehicles() {

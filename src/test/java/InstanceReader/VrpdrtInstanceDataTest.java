@@ -5,22 +5,25 @@
  */
 package InstanceReader;
 
-import org.junit.Assert;
-import org.junit.Test;
+
 import org.junit.BeforeClass;
 import InstanceReader.VrpdrtInstanceData;
+import org.junit.Test;
+
 /**
  *
- * @author renansantos
+ * @author renan
  */
-public class ProblemDataTest {
-
+public class VrpdrtInstanceDataTest {
     private static Instance instance;
     private static String path = "C:\\Doutorado - Renan\\Excel Instances\\";
     private static VrpdrtInstanceData instanceData;
     
+    public VrpdrtInstanceDataTest() {
+    }
+    
     @BeforeClass
-    public static void beforeAllTestMethods() {
+    public static void setUpClass() {
         instance = new Instance();
         instance.setNumberOfRequests(50)
                 .setRequestTimeWindows(10)
@@ -29,16 +32,10 @@ public class ProblemDataTest {
                 .setNumberOfVehicles(250)
                 .setVehicleCapacity(4);
     }
-
+    
     @Test
-    public void testInstanceCreation() {
-        ExcelDataFileReader instanceReader = new ExcelDataFileReader(path, instance);
-        Assert.assertEquals(12, instanceReader.getListOfNodes().size());
+    public void testVrpdrtInstanceDataTestCreation(){
+        instanceData = new VrpdrtInstanceData(instance);
     }
-
-    @Test
-    public void testInstanceDataCreation() {
-         
-    }
-
+    
 }
