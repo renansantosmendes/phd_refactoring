@@ -1,5 +1,6 @@
 package Algorithms;
 
+import InstanceReader.VrpdrtInstanceData;
 import static Algorithms.Methods.*;
 import java.util.*;
 import ProblemRepresentation.*;
@@ -9,13 +10,13 @@ import java.util.stream.Collectors;
 public class Algorithms {
 
     private static int evaluationNumber = 0;
-    private static InstanceData data;
+    private static VrpdrtInstanceData data;
     private String instanceName = "r050n12tw10";
     private String nodesData = "bh_n12s";
     private String adjacenciesData = "bh_adj_n12s";
 
     public Algorithms() {
-        this.data = new InstanceData(instanceName, nodesData, adjacenciesData);
+        this.data = new VrpdrtInstanceData(instanceName, nodesData, adjacenciesData);
         this.data.readProblemData();
     }
 
@@ -23,7 +24,7 @@ public class Algorithms {
         this.instanceName = instanceName;
         this.nodesData = nodesData;
         this.adjacenciesData = adjacenciesData;
-        this.data = new InstanceData(this.instanceName, this.nodesData, this.adjacenciesData);
+        this.data = new VrpdrtInstanceData(this.instanceName, this.nodesData, this.adjacenciesData);
         this.data.readProblemData();
     }
 
@@ -31,7 +32,7 @@ public class Algorithms {
         return evaluationNumber;
     }
 
-    public static InstanceData getData() {
+    public static VrpdrtInstanceData getData() {
         return data;
     }
 

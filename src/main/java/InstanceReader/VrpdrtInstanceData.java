@@ -3,26 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ProblemRepresentation;
+package InstanceReader;
 
 import Algorithms.Methods;
-import InstanceReader.AdjacenciesDAO;
-import InstanceReader.NodeDAO;
-import InstanceReader.RequestDAO;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import InstanceReader.Instance;
+import ProblemRepresentation.Request;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
+import jxl.read.biff.BiffException;
 
 /**
  *
  * @author renansantos
  */
-public class InstanceData {
+public class VrpdrtInstanceData {
     final Long timeWindows = (long) 3;
     private List<Request> listOfRequests = new ArrayList<>();
     private List<List<Integer>> listOfAdjacencies = new LinkedList<>();
@@ -45,14 +40,23 @@ public class InstanceData {
     private String adjacenciesData;
     private int numberOfVehicles = 500;
     private int vehicleCapacity = 1;
+    private Instance instance;
+    private String filePath;
+    private List<Integer> loadIndex = new LinkedList<>();
 
-    public InstanceData(String instanceName, String nodesData, String adjacenciesData) {
+    public VrpdrtInstanceData(Instance instance, String filePath){
+        this.instance = instance;
+        this.filePath = filePath;
+        this.instanceName = this.instance.getInstanceName();
+    }
+    
+    public VrpdrtInstanceData(String instanceName, String nodesData, String adjacenciesData) {
         this.instanceName = instanceName;
         this.nodesData = nodesData;
         this.adjacenciesData = adjacenciesData;
         Methods.initializeFleetOfVehicles(setOfVehicles, numberOfVehicles);
     }
-
+    
     public List<Request> getListOfRequests() {
         return listOfRequests;
     }
@@ -194,7 +198,7 @@ public class InstanceData {
     }
 
     public static void setCurrentTime(Long currentTime) {
-        InstanceData.currentTime = currentTime;
+        VrpdrtInstanceData.currentTime = currentTime;
     }
 
     public static Integer getLastNode() {
@@ -202,7 +206,7 @@ public class InstanceData {
     }
 
     public static void setLastNode(Integer lastNode) {
-        InstanceData.lastNode = lastNode;
+        VrpdrtInstanceData.lastNode = lastNode;
     }
 
     public int getNumberOfVehicles() {
@@ -252,5 +256,38 @@ public class InstanceData {
             }
         }
         return numberOfNodes;
+    }
+    
+    public void readProblemUsingExcelData() throws IOException, BiffException {
+
+        listOfRequests.addAll(new ExcelDataFileReader(filePath, instanceName, instance.getNodesData(), instance.getAdjacenciesData())
+                .getRequests());
+        setOfNodes.addAll(new ExcelDataFileReader(filePath, instanceName, instance.getNodesData(), instance.getAdjacenciesData())
+                .getSetOfNodes());
+        distanceBetweenNodes.addAll(new ExcelDataFileReader(filePath, instanceName, instance.getNodesData(), instance.getAdjacenciesData())
+                .getAdjacenciesListOfDistances());
+        timeBetweenNodes.addAll(new ExcelDataFileReader(filePath, instanceName, instance.getNodesData(), instance.getAdjacenciesData())
+                .getAdjacenciesListOfTimes());
+        numberOfNodes = new ExcelDataFileReader(filePath, instanceName, instance.getNodesData(), instance.getAdjacenciesData()).getNumberOfNodes();
+
+        setOfOrigins.addAll(listOfRequests.stream()
+                .map(Request::getOrigin)
+                .collect(Collectors.toCollection(HashSet::new)));
+        setOfDestinations.addAll(listOfRequests.stream()
+                .map(Request::getDestination)
+                .collect(Collectors.toCollection(HashSet::new)));
+
+        requestsWichBoardsInNode.putAll(listOfRequests.stream()
+                .collect(Collectors.groupingBy(Request::getOrigin)));
+        requestsWichLeavesInNode.putAll(listOfRequests.stream()
+                .collect(Collectors.groupingBy(Request::getDestination)));
+
+        for (int i = 0; i < numberOfNodes; i++) {
+            if (requestsWichBoardsInNode.get(i) != null && requestsWichLeavesInNode.get(i) != null) {
+                loadIndex.add(requestsWichBoardsInNode.get(i).size() - requestsWichLeavesInNode.get(i).size());
+            } else {
+                loadIndex.add(0);
+            }
+        }
     }
 }
