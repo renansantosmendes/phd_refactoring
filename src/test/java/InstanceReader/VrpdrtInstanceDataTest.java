@@ -8,6 +8,9 @@ package InstanceReader;
 
 import org.junit.BeforeClass;
 import InstanceReader.VrpdrtInstanceData;
+import java.io.IOException;
+import jxl.read.biff.BiffException;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -34,8 +37,10 @@ public class VrpdrtInstanceDataTest {
     }
     
     @Test
-    public void testVrpdrtInstanceDataTestCreation(){
-        instanceData = new VrpdrtInstanceData(instance);
+    public void testVrpdrtInstanceDataTestCreation() throws IOException, BiffException{
+        instanceData = new VrpdrtInstanceData(instance, path);
+        instanceData.readProblemUsingExcelData();
+        Assert.assertEquals(12, (long) instanceData.getNumberOfNodes());
     }
     
 }

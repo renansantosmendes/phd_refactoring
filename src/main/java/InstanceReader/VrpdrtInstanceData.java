@@ -8,8 +8,10 @@ package InstanceReader;
 import Algorithms.Methods;
 import InstanceReader.Instance;
 import ProblemRepresentation.Request;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
+import jxl.read.biff.BiffException;
 
 /**
  *
@@ -39,9 +41,13 @@ public class VrpdrtInstanceData {
     private int numberOfVehicles = 500;
     private int vehicleCapacity = 1;
     private Instance instance;
+    private String filePath;
+    private List<Integer> loadIndex = new LinkedList<>();
 
-    public VrpdrtInstanceData(Instance instance){
+    public VrpdrtInstanceData(Instance instance, String filePath){
         this.instance = instance;
+        this.filePath = filePath;
+        this.instanceName = this.instance.getInstanceName();
     }
     
     public VrpdrtInstanceData(String instanceName, String nodesData, String adjacenciesData) {
@@ -250,5 +256,38 @@ public class VrpdrtInstanceData {
             }
         }
         return numberOfNodes;
+    }
+    
+    public void readProblemUsingExcelData() throws IOException, BiffException {
+
+        listOfRequests.addAll(new ExcelDataFileReader(filePath, instanceName, instance.getNodesData(), instance.getAdjacenciesData())
+                .getRequests());
+        setOfNodes.addAll(new ExcelDataFileReader(filePath, instanceName, instance.getNodesData(), instance.getAdjacenciesData())
+                .getSetOfNodes());
+        distanceBetweenNodes.addAll(new ExcelDataFileReader(filePath, instanceName, instance.getNodesData(), instance.getAdjacenciesData())
+                .getAdjacenciesListOfDistances());
+        timeBetweenNodes.addAll(new ExcelDataFileReader(filePath, instanceName, instance.getNodesData(), instance.getAdjacenciesData())
+                .getAdjacenciesListOfTimes());
+        numberOfNodes = new ExcelDataFileReader(filePath, instanceName, instance.getNodesData(), instance.getAdjacenciesData()).getNumberOfNodes();
+
+        setOfOrigins.addAll(listOfRequests.stream()
+                .map(Request::getOrigin)
+                .collect(Collectors.toCollection(HashSet::new)));
+        setOfDestinations.addAll(listOfRequests.stream()
+                .map(Request::getDestination)
+                .collect(Collectors.toCollection(HashSet::new)));
+
+        requestsWichBoardsInNode.putAll(listOfRequests.stream()
+                .collect(Collectors.groupingBy(Request::getOrigin)));
+        requestsWichLeavesInNode.putAll(listOfRequests.stream()
+                .collect(Collectors.groupingBy(Request::getDestination)));
+
+        for (int i = 0; i < numberOfNodes; i++) {
+            if (requestsWichBoardsInNode.get(i) != null && requestsWichLeavesInNode.get(i) != null) {
+                loadIndex.add(requestsWichBoardsInNode.get(i).size() - requestsWichLeavesInNode.get(i).size());
+            } else {
+                loadIndex.add(0);
+            }
+        }
     }
 }
